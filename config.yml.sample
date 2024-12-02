@@ -1,0 +1,85 @@
+##
+# This file contains all of the configuration keys used by S3Source and
+# S3Cache. Simply copy them into your main application configuration.
+#
+
+#----------------------------------------
+# S3Source
+#----------------------------------------
+
+# !! Endpoint URI. Only needed for non-AWS endpoints.
+source.S3Source.endpoint:
+
+# !! AWS region. Leave this set to us-east-1 for non-AWS endpoints.
+source.S3Source.region: us-east-1
+
+# !! Credentials for your AWS account.
+# See: http://aws.amazon.com/security-credentials
+# Note that this info can be obtained from elsewhere rather than setting
+# it here; see the plugin guide.
+source.S3Source.access_key_id:
+source.S3Source.secret_access_key:
+
+# !! Whether to automatically update web identity token, container, and
+# instance profile credentials in the background.
+source.S3Source.async_credential_update: true
+
+# How to look up objects. Allowed values are `BasicLookupStrategy` and
+# `DelegateLookupStrategy`. DelegateLookupStrategy uses a delegate method for
+# dynamic lookups; see the plugin guide.
+source.S3Source.lookup_strategy: BasicLookupStrategy
+
+# !! Name of the bucket containing images to be served.
+source.S3Source.BasicLookupStrategy.bucket:
+
+# Path within the bucket that will be prefixed to the identifier in the URL.
+# Trailing slash is important!
+source.S3Source.BasicLookupStrategy.path_prefix:
+
+# Path or extension that will be suffixed to the identifier in the URL.
+source.S3Source.BasicLookupStrategy.path_suffix:
+
+# Read data in chunks when it may be more efficient. (This also may end up
+# being less efficient, depending on many variables; see the plugin guide.)
+source.S3Source.chunking.enabled: true
+
+# Chunk size.
+source.S3Source.chunking.chunk_size: 512K
+
+#----------------------------------------
+# S3Cache
+#----------------------------------------
+
+# !! Endpoint URI. Only needed for non-AWS endpoints.
+cache.S3Cache.endpoint:
+
+# !! AWS region. Leave this set to us-east-1 for non-AWS endpoints.
+cache.S3Cache.region: us-east-1
+
+# !! Credentials for your AWS account.
+# See: http://aws.amazon.com/security-credentials
+# Note that this info can be obtained from elsewhere rather than setting it
+# here; see the plugin guide.
+cache.S3Cache.access_key_id:
+cache.S3Cache.secret_access_key:
+
+# !! Whether to automatically update web identity token, container, and
+# instance profile credentials in the background.
+cache.S3Cache.async_credential_update: true
+
+# !! Name of a bucket to use to hold cached data.
+cache.S3Cache.bucket:
+
+# !! String that will be prefixed to object keys.
+cache.S3Cache.object_key_prefix:
+
+# Multipart uploads can reduce memory usage when uploading objects larger than
+# 5MB. On the other hand, they are slower and require more requests to the
+# S3 service. This should probably remain disabled except in the case of a
+# memory-constrained server caching atypically large images under low traffic.
+cache.S3Cache.multipart_uploads: false
+
+# Some S3 services return errors in response to requests that exceed a
+# certain burst rate. When such an error occurs, the request will be retried
+# up to this many times.
+cache.S3Cache.max_retries: 5

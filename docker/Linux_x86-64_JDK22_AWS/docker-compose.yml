@@ -1,0 +1,18 @@
+#
+# N.B.: docker-compose must be invoked from the project root directory:
+#
+# docker-compose -f path/to/docker-compose.yml up --build --exit-code-from galia-plugin-s3
+#
+
+services:
+  galia-plugin-s3:
+    platform: linux/amd64
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    build:
+      args:
+        github_pat: ${ACTIONS_PAT}
+      context: ../../
+      dockerfile: $PWD/docker/Linux_x86-64_JDK22_AWS/Dockerfile
+

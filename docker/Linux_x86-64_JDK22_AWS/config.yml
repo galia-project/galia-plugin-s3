@@ -1,0 +1,31 @@
+#----------------------------------------
+# S3Source
+#----------------------------------------
+
+source.S3Source.endpoint:
+source.S3Source.region: us-east-2
+# Will be obtained from the environment
+#source.S3Source.access_key_id:
+#source.S3Source.secret_access_key:
+
+source.S3Source.lookup_strategy: BasicLookupStrategy
+source.S3Source.BasicLookupStrategy.bucket: is.galia.s3source-ci-1
+source.S3Source.BasicLookupStrategy.path_prefix:
+source.S3Source.BasicLookupStrategy.path_suffix:
+source.S3Source.chunking.enabled: true
+source.S3Source.chunking.chunk_size: 1M
+source.S3Source.chunking.cache.enabled: true
+source.S3Source.chunking.cache.max_size: 10M
+
+#----------------------------------------
+# S3Cache
+#----------------------------------------
+
+cache.S3Cache.endpoint:
+cache.S3Cache.region: us-east-2
+# Will be obtained from the environment
+#cache.S3Cache.access_key_id:
+#cache.S3Cache.secret_access_key:
+
+cache.S3Cache.bucket: is.galia.s3cache-ci-1
+cache.S3Cache.object_key_prefix:

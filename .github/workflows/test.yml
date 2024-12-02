@@ -1,0 +1,33 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        s3_service: [aws, minio]
+      fail-fast: false
+    env:
+      # Helps setup-java cache downloads get unstuck
+      SEGMENT_DOWNLOAD_TIMEOUT_MINS: 2
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 22
+          cache:        maven
+      - name: Build and run against Minio
+        if: matrix.s3_service == 'minio'
+        env:
+          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+        run: docker compose -f docker/Linux_x86-64_JDK22_Minio/docker-compose.yml up --build --exit-code-from galia-plugin-s3
+      - name: Build and run against AWS
+        if: matrix.s3_service == 'aws'
+        env:
+          ACTIONS_PAT:           ${{ secrets.ACTIONS_PAT }}
+          AWS_ACCESS_KEY_ID:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: docker compose -f docker/Linux_x86-64_JDK22_AWS/docker-compose.yml up --build --exit-code-from galia-plugin-s3
